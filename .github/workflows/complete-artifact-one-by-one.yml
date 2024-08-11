@@ -298,7 +298,7 @@ jobs:
       
       - name: Set environment variable for armbian_artifacts
         if: ${{ inputs.armbian_target == 'kernel' }}
-        run: echo "ARM_ARTIFACTS=build/output/deb/" >> $GITHUB_ENV
+        run: echo "ARM_ARTIFACTS=build/output/debs/" >> $GITHUB_ENV
       
       - uses: armbian/build@v24.05
         with:
