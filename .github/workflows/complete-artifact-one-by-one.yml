@@ -1,5 +1,5 @@
  
- name: "Build One by One (anyone)"
+name: "Build One by One (anyone)"
 on:
   workflow_dispatch:
     inputs:
