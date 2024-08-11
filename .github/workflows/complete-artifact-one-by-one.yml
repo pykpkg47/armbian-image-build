@@ -1,4 +1,5 @@
-name: "Build One by One (anyone)"
+ 
+ name: "Build One by One (anyone)"
 on:
   workflow_dispatch:
     inputs:
@@ -289,6 +290,11 @@ on:
 jobs:
 
   build:
+
+    name: Set environment variable for armbian_artifacts
+    if: ${{ inputs.armbian_target == 'kernel' }}
+    run: echo "ARM_ARTIFACTS=build/output/deb/" >> $GITHUB_ENV
+
     name: "Build Armbian"
     runs-on: ubuntu-latest
     steps:
@@ -302,6 +308,7 @@ jobs:
           armbian_ui:                 "${{inputs.armbian_ui}}"
           armbian_board:              "${{inputs.armbian_board}}"
           armbian_branch:             "${{inputs.armbian_version}}"
+          armbian_artifacts:           ${{ env.ARM_ARTIFACTS }}
           armbian_release_tittle:     "Armbian image release for ${{inputs.armbian_board}}"
           armbian_release_body:       " kernel:${{inputs.armbian_kernel_branch}} \n distro: ${{inputs.armbian_release}} \n UI: ${{inputs.armbian_ui}} "
  
