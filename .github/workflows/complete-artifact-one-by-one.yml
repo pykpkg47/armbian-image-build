@@ -290,15 +290,16 @@ on:
 jobs:
 
   build:
-
-    name: Set environment variable for armbian_artifacts
-    if: ${{ inputs.armbian_target == 'kernel' }}
-    run: echo "ARM_ARTIFACTS=build/output/deb/" >> $GITHUB_ENV
-
+  
+      
     name: "Build Armbian"
     runs-on: ubuntu-latest
     steps:
-
+      
+      - name: Set environment variable for armbian_artifacts
+        if: ${{ inputs.armbian_target == 'kernel' }}
+        run: echo "ARM_ARTIFACTS=build/output/deb/" >> $GITHUB_ENV
+      
       - uses: armbian/build@v24.05
         with:
           armbian_token:              "${{secrets.GITHUB_TOKEN}}"
