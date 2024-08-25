@@ -296,10 +296,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       
-      - name: Set environment variable for armbian_artifacts
-        if: ${{ inputs.armbian_target == 'kernel' }}
-        run: echo "ARM_ARTIFACTS=build/output/debs/" >> $GITHUB_ENV
-      
       - uses: armbian/build@v24.05
         with:
           armbian_token:              "${{secrets.GITHUB_TOKEN}}"
@@ -309,7 +305,7 @@ jobs:
           armbian_ui:                 "${{inputs.armbian_ui}}"
           armbian_board:              "${{inputs.armbian_board}}"
           armbian_branch:             "${{inputs.armbian_version}}"
-          armbian_artifacts:           "${{ env.ARM_ARTIFACTS }}"
+          armbian_artifacts:          "${{inputs.armbian_target == 'kernel' && 'build/output/debs' || 'build/output/images'}}"
           armbian_release_tittle:     "Armbian image release for ${{inputs.armbian_board}}"
           armbian_release_body:       " kernel:${{inputs.armbian_kernel_branch}} \n distro: ${{inputs.armbian_release}} \n UI: ${{inputs.armbian_ui}} "
  
