@@ -10,7 +10,8 @@ jobs:
           - name: list modules
             run: cat /proc/filesystems
 
-  
+          - name: system-level-dependencies
+            run: sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
 
           - name: Setup tmate session
             uses: mxschmitt/action-tmate@v3

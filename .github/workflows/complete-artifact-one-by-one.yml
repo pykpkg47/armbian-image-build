@@ -11,6 +11,7 @@ on:
         options:
         - kernel
         - build
+        - u-boot
         default: build
 
       armbian_kernel_branch:
@@ -294,9 +295,13 @@ jobs:
       
     name: "Build Armbian"
     runs-on: ubuntu-latest
-    steps:
+    steps: 
       
-      - uses: armbian/build@v24.05
+      - name: install missing f2fs and nilfs kernel modules
+        run:  sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
+
+      - name: Run Armbian Build system
+        uses: armbian/build@v24.05
         with:
           armbian_token:              "${{secrets.GITHUB_TOKEN}}"
           armbian_target:             "${{inputs.armbian_target}}"
@@ -305,11 +310,12 @@ jobs:
           armbian_ui:                 "${{inputs.armbian_ui}}"
           armbian_board:              "${{inputs.armbian_board}}"
           armbian_branch:             "${{inputs.armbian_version}}"
-          armbian_artifacts:          "${{inputs.armbian_target == 'kernel' && 'build/output/debs/' || 'build/output/images/'}}"
+          armbian_artifacts:          "${{inputs.armbian_target == 'kernel' && 'build/output/debs/' || inputs.armbian_target =='u-boot' && 'build/output/debs/' ||  'build/output/images/'}}"
           armbian_release_tittle:     "Armbian image release for ${{inputs.armbian_board}}"
           armbian_release_body:       " kernel:${{inputs.armbian_kernel_branch}} \n distro: ${{inputs.armbian_release}} \n UI: ${{inputs.armbian_ui}} "
       
       - name: Setup tmate session
         if: ${{ failure() }}
         uses: mxschmitt/action-tmate@v3
+        timeout-minutes: 150
  
