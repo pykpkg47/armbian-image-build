@@ -8,10 +8,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
           - name: list modules
-            run: lsmod 
+            run: cat /proc/filesystems
 
           - name: system-level-dependencies
             run: sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
 
           - name: list filesystem 
-            run: cat /proc/filesystems
+            run: modprobe btrfs && cat /proc/filesystems
