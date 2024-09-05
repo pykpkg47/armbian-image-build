@@ -1,0 +1,11 @@
+name: "test"
+on:
+  workflow_dispatch:
+
+jobs:
+    test:
+        name: Run Tests
+        runs-on: ubuntu-latest
+        steps:
+          - name: load modules
+            run: lsmod && modprobe openvswitch && lsmod
