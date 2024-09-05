@@ -12,6 +12,6 @@ jobs:
 
           - name: system-level-dependencies
             run: sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
-            
-          - name: list modules
-            run: lsmod 
+
+          - name: list filesystem 
+            run: cat /proc/filesystems
