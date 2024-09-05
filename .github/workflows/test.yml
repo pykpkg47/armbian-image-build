@@ -14,4 +14,4 @@ jobs:
             run: sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
 
           - name: list filesystem 
-            run: modprobe btrfs && cat /proc/filesystems
+            run: sudo modprobe btrfs && cat /proc/filesystems
