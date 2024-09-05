@@ -299,6 +299,9 @@ jobs:
       
       - name: install missing f2fs and nilfs kernel modules
         run:  sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
+        continue-on-error: true
+          
+        
 
       - name: Run Armbian Build system
         uses: armbian/build@v24.05
