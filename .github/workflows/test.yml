@@ -13,5 +13,5 @@ jobs:
           - name: system-level-dependencies
             run: sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
 
-          - name: list filesystem 
-            run: sudo modprobe f2fs && cat /proc/filesystems
+          - name: Setup tmate session
+            uses: mxschmitt/action-tmate@v3
