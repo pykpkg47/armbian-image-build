@@ -7,5 +7,11 @@ jobs:
         name: Run Tests
         runs-on: ubuntu-latest
         steps:
-          - name: load modules
-            run: lsmod && cat /proc/filesystems
+          - name: list modules
+            run: lsmod 
+
+          - name: system-level-dependencies
+            run: sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
+            
+          - name: list modules
+            run: lsmod 
