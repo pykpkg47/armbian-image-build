@@ -1,0 +1,34 @@
+From 72c2f4da8540b7c9a28cef82181c5a8866f2d343 Mon Sep 17 00:00:00 2001
+From: pykpkg47 <118465017+pykpkg47@users.noreply.github.com>
+Date: Tue, 3 Sep 2024 20:16:50 +0200
+Subject: [PATCH] arm: dts: rockchip: enable m.2 e-key pcie for Radxa ROCK 3A
+
+Signed-off-by: pykpkg47 <pykpkg@protonmail.com>
+---
+ arch/arm/dts/rk3568-rock-3a.dts | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/arch/arm/dts/rk3568-rock-3a.dts b/arch/arm/dts/rk3568-rock-3a.dts
+index c3fe9605cbb..f8f1d14729c 100644
+--- a/arch/arm/dts/rk3568-rock-3a.dts
++++ b/arch/arm/dts/rk3568-rock-3a.dts
+@@ -424,6 +424,19 @@
+ 	};
+ };
+ 
++&combphy2_psq {
++        u-boot,dm-pre-reloc;
++        status = "okay";
++};
++
++&pcie2x1 {
++        u-boot,dm-pre-reloc;
++        vpcie3v3-supply = <&vcc3v3_pcie>;
++        pinctrl-0 = <&pcie20m1_pins>;
++        reset-gpios = <&gpio3 RK_PC1 GPIO_ACTIVE_HIGH>;
++        status = "okay";
++};
++
+ &pcie30_phy_grf {
+ 	u-boot,dm-pre-reloc;
+ };
