@@ -56,6 +56,11 @@ on:
         required: false
         default: ''
 
+      armbian_release_tag:
+        description: 'armbian release tag'
+        required: false
+        default: '' 
+
       armbian_board:
         type: choice
         description: 'Board'
@@ -306,7 +311,7 @@ jobs:
         run:  sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
 
       - name: Run Armbian Build system
-        uses: armbian/build@v24.05
+        uses: pykpkg47/armbian-build@action2
         with:
           armbian_token:              "${{secrets.GITHUB_TOKEN}}"
           armbian_target:             "${{inputs.armbian_target}}"
@@ -317,6 +322,7 @@ jobs:
           armbian_branch:             "${{inputs.armbian_build_branch}}"
           armbian_version:            "${{inputs.armbian_version}}" 
           armbian_artifacts:          "${{inputs.armbian_target == 'kernel' && 'build/output/debs/' || inputs.armbian_target =='uboot' && 'build/output/debs/' ||  'build/output/images/'}}"
+          armbian_release_tag:        "${{inputs.armbian_release_tag}}"
           armbian_release_tittle:     "Armbian image release for ${{inputs.armbian_board}}"
           armbian_release_body:       " kernel:${{inputs.armbian_kernel_branch}} \n distro: ${{inputs.armbian_release}} \n UI: ${{inputs.armbian_ui}} "
       
