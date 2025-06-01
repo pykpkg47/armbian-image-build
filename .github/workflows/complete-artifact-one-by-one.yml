@@ -306,7 +306,7 @@ jobs:
         run:  sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
 
       - name: Run Armbian Build system
-        uses: armbian/build@v24.05
+        uses: armbian/build@v24@main
         with:
           armbian_token:              "${{secrets.GITHUB_TOKEN}}"
           armbian_target:             "${{inputs.armbian_target}}"
