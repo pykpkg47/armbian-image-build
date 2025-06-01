@@ -51,6 +51,10 @@ on:
         required: false
         default: ''
 
+      armbian_release_tag:
+        description: "Armbian release tag"
+        required: false
+
       armbian_build_branch:
         description: 'Choose build  framework branch default main'
         required: false
@@ -299,7 +303,7 @@ jobs:
   
       
     name: "Build Armbian"
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04-arm
     steps: 
       
       - name: install missing f2fs and nilfs kernel modules
@@ -316,6 +320,7 @@ jobs:
           armbian_board:              "${{inputs.armbian_board}}"
           armbian_branch:             "${{inputs.armbian_build_branch}}"
           armbian_version:            "${{inputs.armbian_version}}" 
+          armbian_release_tag:        "${{inputs.armbian_release_tag}}" 
           armbian_artifacts:          "${{inputs.armbian_target == 'kernel' && 'build/output/debs/' || inputs.armbian_target =='uboot' && 'build/output/debs/' ||  'build/output/images/'}}"
           armbian_release_tittle:     "Armbian image release for ${{inputs.armbian_board}}"
           armbian_release_body:       " kernel:${{inputs.armbian_kernel_branch}} \n distro: ${{inputs.armbian_release}} \n UI: ${{inputs.armbian_ui}} "
