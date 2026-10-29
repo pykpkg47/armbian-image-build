@@ -326,8 +326,4 @@ jobs:
           armbian_release_title:     "Armbian image release for ${{inputs.armbian_board}}"
           armbian_release_body:       " kernel:${{inputs.armbian_kernel_branch}} \n distro: ${{inputs.armbian_release}} \n UI: ${{inputs.armbian_ui}} "
       
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 150
  
