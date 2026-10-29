@@ -308,7 +308,7 @@ jobs:
     steps: 
       
       - name: install missing f2fs and nilfs kernel modules
-        run:  sudo apt update && sudo apt -y install linux-modules-extra-$(uname -r )  
+        run:   sudo apt -y install linux-image-azure linux-modules-extra-azure
 
       - name: Run Armbian Build system
         uses: armbian/build@main
@@ -326,8 +326,5 @@ jobs:
           armbian_release_title:     "Armbian image release for ${{inputs.armbian_board}}"
           armbian_release_body:       " kernel:${{inputs.armbian_kernel_branch}} \n distro: ${{inputs.armbian_release}} \n UI: ${{inputs.armbian_ui}} "
       
-      - name: Setup tmate session
-        if: ${{ failure() }}
-        uses: mxschmitt/action-tmate@v3
-        timeout-minutes: 150
+
  
