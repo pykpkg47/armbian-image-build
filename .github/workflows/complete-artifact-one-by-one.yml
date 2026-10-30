@@ -298,6 +298,17 @@ on:
         - xiaomi-umi
         - zeropi
 
+      armbian_config_name:
+        type: choice
+        description: " Custom userpatch(files in userpatch/config-...)"
+        required: false 
+        options:
+        - default
+        - btrfs
+        - f2fs
+        - nilfs2
+        default: 'default'
+
 jobs:
 
   build:
@@ -306,15 +317,28 @@ jobs:
     name: "Build Armbian"
     runs-on: ubuntu-24.04-arm
     steps: 
-      
-      - name: install missing f2fs and nilfs kernel modules
-        run:   sudo apt -y install linux-image-azure linux-modules-extra-azure
+  
+      - name: install missing f2fs nilfs and btrfs kernel modules
+        run: |
+         set -euo pipefail
+         kernel="$(uname -r)"
+         sudo apt-get update
+         if (( ${kernel%%.*} < 7 )); then
+           sudo apt-get install -y "linux-modules-extra-${kernel}"
+         else 
+          sudo apt-get install -y  "linux-modules-${kernel}"
+         fi
+         sudo depmod -a "${kernel}"
+         sudo modprobe btrfs
+
+          
 
       - name: Run Armbian Build system
-        uses: armbian/build@main
+        uses: pykpkg47/armbian-build@action3
         with:
           armbian_token:              "${{secrets.GITHUB_TOKEN}}"
           armbian_target:             "${{inputs.armbian_target}}"
+          armbian_config_name:        "${{inputs.armbian_config_name}}"
           armbian_release:            "${{inputs.armbian_release}}"
           armbian_kernel_branch:      "${{inputs.armbian_kernel_branch}}"
           armbian_ui:                 "${{inputs.armbian_ui}}"
