@@ -14,6 +14,18 @@ on:
         - uboot
         default: build
 
+      armbian_config_name:
+        type: choice
+        description: " Custom userpatch(files in userpatch/config-...)"
+        required: false 
+        options:
+        - default
+        - btrfs
+        - f2fs
+        - nilfs2
+        default: 'default'
+
+
       armbian_kernel_branch:
         type: choice
         description: 'Kernel branch'
@@ -307,20 +319,15 @@ jobs:
     runs-on: ubuntu-24.04-arm
     steps: 
       
-      - name: install missing f2fs and nilfs kernel modules
-        run: |
-         set -euo pipefail
-         kernel="$(uname -r)"
-         if (( ${kernel%%.*} < 7 )); then
-           sudo apt-get update
-           sudo apt-get install -y "linux-modules-extra-${kernel}"
-         fi
+
+
 
       - name: Run Armbian Build system
-        uses: armbian/build@main
+        uses: pykpkg47/armbian-build@action3
         with:
           armbian_token:              "${{secrets.GITHUB_TOKEN}}"
           armbian_target:             "${{inputs.armbian_target}}"
+          armbian_config_name:        "${{inputs.armbian_config_name}}"
           armbian_release:            "${{inputs.armbian_release}}"
           armbian_kernel_branch:      "${{inputs.armbian_kernel_branch}}"
           armbian_ui:                 "${{inputs.armbian_ui}}"
